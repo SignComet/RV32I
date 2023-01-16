@@ -7,9 +7,6 @@
 ## Микроархитектура
 ![image](https://user-images.githubusercontent.com/112335356/212677858-d09f6d2c-967e-4b3c-acea-3bf038ef6aa7.png)
 
-
-<img src="https://user-images.githubusercontent.com/112335356/212536013-24666b48-e89a-459a-bd5a-1c3a316976f7.png" width="1000" height="550">
-
 ## Иерархия проекта
 + miriscv_top 
   + core: PROCESSSOR
@@ -27,7 +24,7 @@
 ## Структура модуля miriscv_top (ссылка на код)
 Топовый файл, в котором объединяется ядро, память и контроллер прерываний. В коде также добалена ....поступление "реальных" прерываний
 
-<img src="https://user-images.githubusercontent.com/112335356/212535165-4594f483-cd49-4ff4-87fe-28db2cb5715d.png" width="700" height="500">
+![image](https://user-images.githubusercontent.com/112335356/212678055-108ab529-203f-406c-bf8c-426b95749d3e.png)
 
 ## PC (ссылка на код)
 `Program counter`, счётчик команд c синхронным сигналом сброса и синхронным сигналом разрешения. Т.к. адресация побайтовая (слово 32 бита - 4 байта), то прибавляем для перехода pc = pc + 4, чтобы перейти к следующему слову (если это не операция управления).
@@ -35,11 +32,11 @@
 ## main_decoder (ссылка на код)
 Комбинационная логика. По полю `opcode` устройство управления понимает что требуется сделать процессору, что требует сделать инструкциял, каким именно способом закодирована (`R`, `I`, `S`, `B`, `U` или `J`). Поля `Func3` и `Func7` также уточняют, что конкретно требуется от процессора сейчас. 
 
-<img src="https://user-images.githubusercontent.com/112335356/212559956-b66c6589-ad85-4311-a4b3-4a171973b6c6.png" width="800" height="200">
+![image](https://user-images.githubusercontent.com/112335356/212678108-1b506b08-7c31-4c8e-87ce-e7331d62f17a.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212560177-a31c475d-7b22-4997-a957-fc80d0788b79.png" width="1000" height="700">
+![image](https://user-images.githubusercontent.com/112335356/212678162-16dc7455-5ec2-4052-a595-e58a426a220a.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212560097-1ddfa54b-6c66-467e-826c-b3400ac7fabb.png" width="800" height="150">
+![image](https://user-images.githubusercontent.com/112335356/212678200-cbc14997-95a9-483d-a042-3c5309e671a0.png)
 
 Также реализована инструкция NOP.
 
@@ -51,7 +48,7 @@
 ## АЛУ (ссылка на код)
 `Арифметико-логическое устройство`. Содержит стандартную комбинационную логику, удовлетворяющую АЛУ RISC-V, сумматор реализован самостоятельно как сумматор с последовательным переносом и добавлен в case
 
-<img src="https://user-images.githubusercontent.com/112335356/212536705-f9a52a50-636a-4d0d-a99f-c5c3338cd9a3.png" width="600" height="450">
+![image](https://user-images.githubusercontent.com/112335356/212678280-f95323ff-631d-4b1e-abdf-8a284e4f373a.png)
 
 ### fulladder (ссылка на код)
 `Cумматор` с последовательным переносом, реализован с дублированием блока полного сумматора adder(ссылка) с помощью конструкции generate. 
@@ -59,27 +56,26 @@
 ## LSU (ссылка на код)
 `Load/Store Unit`, блок загрузки/сохранения. Прослойка между памятью (внешним устройством) и ядром. Без него процессор работал только со словами, не оптимальное использование памяти. Теперь мы можем читать/записывать слова, полуслова, байты. Знаковое/беззнаковое число имеет значение только для операции LOAD. Знаковое - используется расширение знака (`sign extension`) до 32 бит, беззнаковое - разширяем нулями (`zero extension`).
 
-<img src="https://user-images.githubusercontent.com/112335356/212565977-ef742136-19cc-4263-87d8-b286010e618c.png" width="600" height="350">
+![image](https://user-images.githubusercontent.com/112335356/212678529-f2351669-9c3f-49c2-b1ad-de3b2aa95eec.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212565983-da042247-2a14-410b-b709-a185a99f11ab.png" width="600" height="200">
+![image](https://user-images.githubusercontent.com/112335356/212678581-182b4584-0c8a-45ae-99e1-144161867175.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212565991-09f2a489-218c-4a0e-9dd2-b997d43f640e.png" width="1000" height="500">
+![image](https://user-images.githubusercontent.com/112335356/212678632-1fa66b15-df4e-4f39-b675-061081d4020f.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212566003-4e5d5af5-0f16-4899-aa10-ca66c65da544.png" width="700" height="500">
+![image](https://user-images.githubusercontent.com/112335356/212678676-8a5626f7-0515-4ba0-b616-a2e041686f10.png)
 
 ## CSR (ссылка на код)
 `Control and Status Registrs`. Данные регистры обеспечивают управление элементами процессора и доступ к статусной информации о системе. Их необходимо использовать, чтобы реализовать систему прерываний. Для реализации простейшей системы прерываний на процессоре с архитектурой RISC-V нам достаточно 5-ти CSR регистров, работающих в самом привилегированном режиме - `машинном` и 4 инструкции специальные инструкции `SYSTEM`. Часто используют псевдоинструкции для упрощения программирования на ассемблере.
 
-<img src="https://user-images.githubusercontent.com/112335356/212567805-f89d0c76-9e49-4ee5-a5a4-890478d8e9be.png" width="750" height="150">
+![image](https://user-images.githubusercontent.com/112335356/212678761-8f27832a-58f4-4c63-a8ba-8c0e492e7b0c.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212567830-bcb09c21-839b-443f-a3db-6bc38762da73.png" width="700" height="150">
+![image](https://user-images.githubusercontent.com/112335356/212678804-50de24a0-a869-4ce5-9b6b-f73f4c391343.png)
 
-<img src="https://user-images.githubusercontent.com/112335356/212567861-e0511c0c-f85f-470e-890d-2dbd1ea82932.png" width="750" height="100">
+![image](https://user-images.githubusercontent.com/112335356/212678856-008a922c-0205-483b-b8b0-9357712b4ce0.png)
 
 Реализация CSR блока
 
-<img src="https://user-images.githubusercontent.com/112335356/212568046-e146b323-27a7-46d7-9c4d-357df5560773.png" width="700" height="550">
-
+![image](https://user-images.githubusercontent.com/112335356/212678938-504f6387-b155-4348-b5eb-d381a5fafb53.png)
 
 ## miriscv_ram (ссылка на код)
 Изначально, до добавления блока LSU, было две памяти - инструкций и данных, теперь они объединены в `одну память`, в модуле miriscv_ram. 
@@ -89,7 +85,7 @@
 
 В основе `контроллера прерываний с циклическим опросом` лежит счётчик, выход которого одновременно является кодом причины прерывания mcause, подаётся на вход дешифратора. Дешифратор выдаёт 1 только на соответствующем входе. Счётчик работает по кругу до тех пор пока не наткнётся на незамаскированное прерывание. В данной реализации нет приоритетов, нельзя изменить маску.
 
-<img src="https://user-images.githubusercontent.com/112335356/212568133-48ea2b05-8463-4e44-b04d-6d7db60cfed8.png" width="700" height="450">
+![image](https://user-images.githubusercontent.com/112335356/212679034-c2d35203-35b9-4f18-bd5a-2b245b9ba452.png)
 
 # Пример выполнения простой программы с вычислительными, условными операциями.
 `Задание`: рассчитать площадь круга при заданном радиусе с точностью до целого.
