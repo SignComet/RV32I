@@ -18,8 +18,8 @@ module miriscv_ram
   // data memory interface
   output logic  [31:0]  data_rdata_o, //load
   input                 data_req_i,   // 1 - load
-  input                 data_we_i,    // 0 - load (тк пишем в rf)
-  input         [3:0]   data_be_i,    // на результат чтения из памяти не влияет
+  input                 data_we_i,    // 0 - load (to rf)
+  input         [3:0]   data_be_i,   
   input         [31:0]  data_addr_i,  // store
   input         [31:0]  data_wdata_i  // store
 );

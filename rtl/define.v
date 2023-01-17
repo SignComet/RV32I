@@ -30,7 +30,7 @@
 `define LOAD_OPCODE      5'b00_000
 `define MISC_MEM_OPCODE  5'b00_011
 `define OP_IMM_OPCODE    5'b00_100
-`define AUIPC_OPCODE     5'b00_101  //тк два младших всегда 11
+`define AUIPC_OPCODE     5'b00_101  // due to two lowest bits are always 11
 `define STORE_OPCODE     5'b01_000
 `define OP_OPCODE        5'b01_100
 `define LUI_OPCODE       5'b01_101

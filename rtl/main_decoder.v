@@ -4,21 +4,21 @@
 `include "define.v"
 
 module main_decoder(    // устройство управления
-                        input      [31:0]                fetched_instr_i, // считанная из памяти инструкциz 
-                        output reg [1:0]                 ex_op_a_sel_o,   // Управляющий сигнал мультиплексора для выбора первого операнда АЛУ
+                        input      [31:0]                fetched_instr_i, // instr
+                        output reg [1:0]                 ex_op_a_sel_o,   // sel mux of first operand ALU 
                         output reg [2:0]                 ex_op_b_sel_o,
                         output reg [`ALU_OP_WIDTH-1 : 0] alu_op_o,
-                        output reg                       mem_req_o,       // Запрос на доступ к памяти (часть интерфейса памяти)
-                        output reg                       mem_we_o,        // при равенстве нулю происходит чтение
-                        output reg [2:0]                 mem_size_o,      // Управляющий сигнал для выбора размера слова при чтении-записи в память (часть интерфейса памяти) 
-                        output reg                       gpr_we_a_o,      // Сигнал разрешения записи в регистровый файл
-                        output reg                       wb_src_sel_o,    // Управляющий сигнал мультиплексора для выбора данных, записываемых в регистровый файл 
-                        output                           illegal_instr_o, // Сигнал о некорректной инструкции (на схеме не отмечен)
-                        output reg                       branch_o,        // Сигнал об инструкции условного перехода
-                        output reg                       jal_o,           // Сигнал об инструкции безусловного перехода jal   смещение относительно pc        JAL rd, offset          # rd ? PC + 4, PC ? PC + offset  ( Адрес возврата также сохраняется в rd)     
-                        output reg [1:0]                 jalr_o,          // Сигнал об инструкции безусловного перехода jarl  смещение относительно регистра  JALR rd, offset(rs1)    # rd ? PC + 4, PC ? rs1 + offset ( Адрес возврата также сохраняется в rd)        
+                        output reg                       mem_req_o,       // memory access
+                        output reg                       mem_we_o,        // 0 - read 1 - write memory
+                        output reg [2:0]                 mem_size_o,      // size of word 
+                        output reg                       gpr_we_a_o,      // 0 - read 1 - write RF
+                        output reg                       wb_src_sel_o,    // sel mux for data into rf
+                        output                           illegal_instr_o, 
+                        output reg                       branch_o,        // 
+                        output reg                       jal_o,           //  offset relative to pc        JAL rd, offset          # rd ? PC + 4, PC ? PC + offset  ( The return address is also saved in rd)     
+                        output reg [1:0]                 jalr_o,          //  offset relative to регистра  JALR rd, offset(rs1)    # rd ? PC + 4, PC ? rs1 + offset ( The return address is also saved in rd)        
                         output     [2:0]                 CSROop,           
-                        input                            INT_,             // сигнал о том, что произо-шло прерывание
+                        input                            INT_,            // happened interrupt
                         output reg                       INT_RST,
                         output                           csr,
                         input                            en_int_rst,
@@ -61,7 +61,7 @@ assign ALU_operation =        (funct7_R == 7'b0)  && (funct3_RISB == 3'b0) ? `AL
                               (funct7_R == 7'b0)  && (funct3_RISB == 3'h5) ? `ALU_SRL  :
                               (funct7_R == 7'h20) && (funct3_RISB == 3'h5) ? `ALU_SRA  : 
                               (funct7_R == 7'b0)  && (funct3_RISB == 3'h2) ? `ALU_SLTS : 
-                              (funct7_R == 7'b0)  && (funct3_RISB == 3'h3) ? `ALU_SLTU : 5'b01110; //01110 не используется!
+                              (funct7_R == 7'b0)  && (funct3_RISB == 3'h3) ? `ALU_SLTU : 5'b01110; //01110 not used!
                        
 
 assign ALU_operation_i =      (funct3_RISB == 3'b0) ? `ALU_ADD                         :
@@ -72,24 +72,24 @@ assign ALU_operation_i =      (funct3_RISB == 3'b0) ? `ALU_ADD                  
                               (funct7_R == 7'b0)  && (funct3_RISB == 3'h5) ? `ALU_SRL  :
                               (funct7_R == 7'h20) && (funct3_RISB == 3'h5) ? `ALU_SRA  : 
                               (funct3_RISB == 3'h2) ? `ALU_SLTS                        : 
-                              (funct3_RISB == 3'h3) ? `ALU_SLTU                        : 5'b01110; //01110 не используется!
+                              (funct3_RISB == 3'h3) ? `ALU_SLTU                        : 5'b01110; //01110 not used!
 
 assign ALU_operation_branch = (funct3_RISB == 3'b0) ? `ALU_EQ  :
                               (funct3_RISB == 3'h1) ? `ALU_NE  : 
                               (funct3_RISB == 3'h4) ? `ALU_LTS : 
                               (funct3_RISB == 3'h5) ? `ALU_GES : 
                               (funct3_RISB == 3'h6) ? `ALU_LTU : 
-                              (funct3_RISB == 3'h7) ? `ALU_GEU : 5'b01110; //01110 не используется!
+                              (funct3_RISB == 3'h7) ? `ALU_GEU : 5'b01110; //01110 not used!
                               
 assign mem_size_IS =          (funct3_RISB == 3'b0) ? `LDST_B  :                          
                               (funct3_RISB == 3'h1) ? `LDST_H  : 
                               (funct3_RISB == 3'h2) ? `LDST_W  : 
                               (funct3_RISB == 3'h4) ? `LDST_BU : 
-                              (funct3_RISB == 3'h5) ? `LDST_HU : 3'b111; //111 не используется!
+                              (funct3_RISB == 3'h5) ? `LDST_HU : 3'b111; //111 not used!
 
 assign mem_size_IS_store =    (funct3_RISB == 3'b0) ? `LDST_B  :                          
                               (funct3_RISB == 3'h1) ? `LDST_H  : 
-                              (funct3_RISB == 3'h2) ? `LDST_W  : 3'b111; //111 не используется!
+                              (funct3_RISB == 3'h2) ? `LDST_W  : 3'b111; //111 not used!
                               
 
 reg illegal = 0;    
@@ -101,16 +101,16 @@ else INT_RST  =  1'b0;
 if(INT_) begin 
                       gpr_we_a_o    =  1'b1;                    
                       mem_req_o     =  1'b0;                 
-                      alu_op_o      = `ALU_ADD; //////////nop;               //  PC += imm
+                      alu_op_o      = `ALU_ADD; // nop;     //  PC += imm
                       ex_op_a_sel_o = `OP_A_CURR_PC;  
-                      ex_op_b_sel_o = `OP_B_INCR;            ////////////////////
+                      ex_op_b_sel_o = `OP_B_INCR;            
                       wb_src_sel_o  = `WB_EX_RESULT;       
                     
                       mem_we_o      =  1'b0;
-                      mem_size_o    =  3'b0; //////////nop
+                      mem_size_o    =  3'b0; // it doesn't matter
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
-                      jalr_o        =  2'h3; //mtvec
+                      jalr_o        =  2'h3; // mtvec
                       INT_RST       =  1'b0;
                       flag_mret = 0;
                       
@@ -121,120 +121,120 @@ if(flag_mret)INT_RST =  1'b0;
 flag_mret     =  0;
 case (fetched_instr_i[6:2])
      `OP_OPCODE:    begin           // R-type
-                      gpr_we_a_o    =  1'b1;             // запись в RF
-                      mem_req_o     =  1'b0;             // неважно    
+                      gpr_we_a_o    =  1'b1;            // write to a RF
+                      mem_req_o     =  1'b0;            // it doesn't matter    
                       alu_op_o      =  ALU_operation;
                       ex_op_a_sel_o = `OP_A_RS1; 
                       ex_op_b_sel_o = `OP_B_RS2;
-                      wb_src_sel_o  = `WB_EX_RESULT;     // результат с АЛУ запис в Рег файл
-                    
-                      mem_we_o      =  1'b0;             // неважно
-                      mem_size_o    =  3'b0;             // неважно, нет обращения к памяти
+                      wb_src_sel_o  = `WB_EX_RESULT;    // result from alu to rf
+                                          
+                      mem_we_o      =  1'b0;            //  it doesn't matter
+                      mem_size_o    =  3'b0;            //  it doesn't matter, no memory access
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0;
                     end
                     
     `OP_IMM_OPCODE: begin           // I-type
-                      gpr_we_a_o    =  1'b1;             // запись в RF
-                      mem_req_o     =  1'b0;             // неважно             
+                      gpr_we_a_o    =  1'b1;            // write to a RF 
+                      mem_req_o     =  1'b0;            // it doesn't matter             
                       alu_op_o      =  ALU_operation_i;
                       ex_op_a_sel_o = `OP_A_RS1; 
                       ex_op_b_sel_o = `OP_B_IMM_I;
-                      wb_src_sel_o  = `WB_EX_RESULT;    // результат с АЛУ запис в Рег файл
+                      wb_src_sel_o  = `WB_EX_RESULT;    // result from alu to rf
                     
-                      mem_we_o      =  1'b0;            // неважно 
-                      mem_size_o    =  3'b0;            // неважно
+                      mem_we_o      =  1'b0;            // it doesn't matter 
+                      mem_size_o    =  3'b0;            // it doesn't matter
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0;  
                     end
                     
     `LUI_OPCODE:    begin           // U-type            // lui xn const == rd == imm << 12  
-                      gpr_we_a_o    =  1'b1;             // запись в RF
-                      mem_req_o     =  1'b0;             // неважно    
-                      alu_op_o      = `ALU_ADD;          // без разницы тк с +0
-                      ex_op_a_sel_o = `OP_A_ZERO;        // подаётся 0
+                      gpr_we_a_o    =  1'b1;             // write to RF
+                      mem_req_o     =  1'b0;             // it doesn't matter    
+                      alu_op_o      = `ALU_ADD;          // +0
+                      ex_op_a_sel_o = `OP_A_ZERO;        // 0
                       ex_op_b_sel_o = `OP_B_IMM_U;
-                      wb_src_sel_o  = `WB_EX_RESULT;     // результат с АЛУ запис в Рег файл
+                      wb_src_sel_o  = `WB_EX_RESULT;     // result from ALU to RF 
                     
-                      mem_we_o      =  1'b0;             // неважно
-                      mem_size_o    =  3'b0;             // неважно
+                      mem_we_o      =  1'b0;             // it doesn't matter
+                      mem_size_o    =  3'b0;             // it doesn't matter
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0; 
                     end    
                                                         
-    `LOAD_OPCODE:   begin           // I-type             // загрузка/выгрузка слов ИЗ памяти lw xN(из) offset(base(rs1)) = rd = M[rs1+imm][0:31]
-                      gpr_we_a_o    =  1'b1;              // ЗАПИСЬ в RF
+    `LOAD_OPCODE:   begin           // I-type             lw xN(from mem to rf), offset(base) 
+                      gpr_we_a_o    =  1'b1;              // WRITE to RF
                       mem_req_o     =  1'b1;                  
                       alu_op_o      = `ALU_ADD;           // rs1+imm
                       ex_op_a_sel_o = `OP_A_RS1; 
                       ex_op_b_sel_o = `OP_B_IMM_I;
-                      wb_src_sel_o  = `WB_LSU_DATA;       // результат с АЛУ запис в Рег файл
+                      wb_src_sel_o  = `WB_LSU_DATA;       // result from ALU to RF 
                     
-                      mem_we_o      =  1'b0;              // не пишем, ЧИТАЕМ из памяти, ЗАГРУЖАЕМ в рег файл
+                      mem_we_o      =  1'b0;              // READ from men
                       mem_size_o    =  mem_size_IS;
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0;
                     end
     
-    `STORE_OPCODE:  begin           // S-type              // загрузка/выгрузка слов В память  sw xN(из) offset(base)   M[rs1+imm][0:31] = rs2[0:31]
-                      gpr_we_a_o    =  1'b0;               // ЧИТАЕМ
+    `STORE_OPCODE:  begin           // S-type              // sw xN(from to mem), offset(base)
+                      gpr_we_a_o    =  1'b0;               // READ
                       mem_req_o     =  1'b1;                 
                       alu_op_o      = `ALU_ADD;            // rs1+imm
                       ex_op_a_sel_o = `OP_A_RS1; 
-                      ex_op_b_sel_o = `OP_B_IMM_S;         // константа хранится в двух полях
-                      wb_src_sel_o  =  1'b0;               // без разницы тк НЕ запис в RF
+                      ex_op_b_sel_o = `OP_B_IMM_S;         // the constant is stored in two fields
+                      wb_src_sel_o  =  1'b0;               // it doesn't matter, does not write to RF
                     
-                      mem_we_o      =  1'b1;               // ЗАПИСЫВАЕМ
+                      mem_we_o      =  1'b1;               // WRITE
                       mem_size_o    =  mem_size_IS_store;
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0; 
                     end
                     
-    `BRANCH_OPCODE: begin           // B-type              // условный переход, ничего не запис, работаем с PC 
+    `BRANCH_OPCODE: begin           // B-type              
                       gpr_we_a_o    =  1'b0;                    
-                      mem_req_o     =  1'b0;               // неважно     
+                      mem_req_o     =  1'b0;               // it doesn't matterно     
                       alu_op_o      =  ALU_operation_branch;    
                       ex_op_a_sel_o = `OP_A_RS1;  
                       ex_op_b_sel_o = `OP_B_RS2; 
-                      wb_src_sel_o  =  1'b0;                // без разницы. Только переход
+                      wb_src_sel_o  =  1'b0;                // it doesn't matter 
                     
-                      mem_we_o      =  1'b0;                // неважно   
-                      mem_size_o    =  3'b0;                // неважно   
+                      mem_we_o      =  1'b0;                // it doesn't matter   
+                      mem_size_o    =  3'b0;                // it doesn't matter   
                       branch_o      =  1'b1; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0; 
                     end   
    
-    `JAL_OPCODE:    begin           // J-type                // безусловный переход, ничего не запис, работаем с PC jal xN, label  rd = PC + 4 PC += imm
+    `JAL_OPCODE:    begin           // J-type                
                       gpr_we_a_o    =  1'b1;                    
-                      mem_req_o     =  1'b0;                 // неважно   
+                      mem_req_o     =  1'b0;                 // it doesn't matter   
                       alu_op_o      = `ALU_ADD;              // PC += imm
                       ex_op_a_sel_o = `OP_A_CURR_PC;  
                       ex_op_b_sel_o = `OP_B_INCR; 
                       wb_src_sel_o  = `WB_EX_RESULT;        
                     
-                      mem_we_o      =  1'b0;                 // неважно   
-                      mem_size_o    =  3'b0;                 // неважно   
+                      mem_we_o      =  1'b0;                 // it doesn't matter   
+                      mem_size_o    =  3'b0;                 // it doesn't matter   
                       branch_o      =  1'b0; 
                       jal_o         =  1'b1;
                       jalr_o        =  2'b0;  
                     end   
     
-    `JALR_OPCODE:   begin           // I-type                // безусловный переход, ничего не запис, работаем с PC jal xN, label  rd = PC + 4 PC += rs1 + imm
+    `JALR_OPCODE:   begin           // I-type                
                       gpr_we_a_o    =  1'b1;                    
-                      mem_req_o     =  1'b0;                 // неважно   
+                      mem_req_o     =  1'b0;                 // it doesn't matter   
                       alu_op_o      = `ALU_ADD;               
                       ex_op_a_sel_o = `OP_A_CURR_PC;  
                       ex_op_b_sel_o = `OP_B_INCR;            
                       wb_src_sel_o  = `WB_EX_RESULT;       
                     
-                      mem_we_o      =  1'b0;                 // неважно      
-                      mem_size_o    =  3'b0;                 // неважно   
+                      mem_we_o      =  1'b0;                 // it doesn't matter      
+                      mem_size_o    =  3'b0;                 // it doesn't matter   
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b1; 
@@ -242,21 +242,21 @@ case (fetched_instr_i[6:2])
     
     `AUIPC_OPCODE:  begin           // U-type                 // auipc xn label   rd == PC +(imm << 12)  Add Upper Immediate to PC (добавить константу к старшим битам РС).
                       gpr_we_a_o    =  1'b1;                  // запись в RF
-                      mem_req_o     =  1'b0;                  // неважно
+                      mem_req_o     =  1'b0;                  // it doesn't matter
                       alu_op_o      = `ALU_ADD;                
                       ex_op_a_sel_o = `OP_A_CURR_PC; 
                       ex_op_b_sel_o = `OP_B_IMM_U;
                       wb_src_sel_o  = `WB_EX_RESULT;          // результат с АЛУ запис в Рег файл
                     
-                      mem_we_o      =  1'b0;                  // неважно  
-                      mem_size_o    =  3'b0;                  // неважно  
+                      mem_we_o      =  1'b0;                  // it doesn't matter  
+                      mem_size_o    =  3'b0;                  // it doesn't matter  
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
                       jalr_o        =  2'b0;
                     end    
     
     
-  `MISC_MEM_OPCODE: begin           // I-type  	Не производить операцию    NOP     
+  `MISC_MEM_OPCODE: begin           // I-type  	NOP     
                       gpr_we_a_o    =  1'b0;                    
                       mem_req_o     =  1'b0;                 
                       alu_op_o      = `ALU_ADD;               //////////nop;              
@@ -271,18 +271,18 @@ case (fetched_instr_i[6:2])
                       jalr_o        =  2'b0;  
                     end                               
     
-    `SYSTEM_OPCODE : begin           // I-type    ДЛЯ РАБОТЫ С CSR
+    `SYSTEM_OPCODE : begin           // I-type    for CSR
     if(funct3_RISB == 3'b000)
     begin  //MRET
                       gpr_we_a_o    =  1'b1;                    
-                      mem_req_o     =  1'b0;                 // неважно 
+                      mem_req_o     =  1'b0;                 // it doesn't matter 
                       alu_op_o      = `ALU_ADD;              //////////nop;  
                       ex_op_a_sel_o = `OP_A_CURR_PC;  
                       ex_op_b_sel_o = `OP_B_INCR;            
                       wb_src_sel_o  = `WB_EX_RESULT;       
                     
-                      mem_we_o      =  1'b0;                // неважно  
-                      mem_size_o    =  3'b0;                // неважно 
+                      mem_we_o      =  1'b0;                // it doesn't matter  
+                      mem_size_o    =  3'b0;                // it doesn't matter 
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;                
                       jalr_o        =  2'h2;                // pc = mepc
@@ -291,14 +291,14 @@ case (fetched_instr_i[6:2])
     end
     else if(funct3_RISB == 3'b001 || funct3_RISB == 3'b010 || funct3_RISB == 3'b011)
     begin  //CSRRW //CSRRS //CSRRC     
-                      gpr_we_a_o    =  1'b1;                //  rd = csr  // ЗАПИСЬ в RF
+                      gpr_we_a_o    =  1'b1;                // rd = csr  // WRITE to RF
                       mem_req_o     =  1'b1;                  
                       alu_op_o      = `ALU_ADD;             // rs1+imm
                       ex_op_a_sel_o = `OP_A_RS1; 
                       ex_op_b_sel_o = `OP_B_IMM_I;
                       wb_src_sel_o  = `WB_LSU_DATA;         
                     
-                      mem_we_o      =  1'b0;                // не пишем, ЧИТАЕМ
+                      mem_we_o      =  1'b0;                // READ
                       mem_size_o    =  mem_size_IS;
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
@@ -313,7 +313,7 @@ case (fetched_instr_i[6:2])
                                //nop
                       gpr_we_a_o    =  1'b0;                    
                       mem_req_o     =  1'b0;                 
-                      alu_op_o      = `ALU_ADD;               //////////nop;              
+                      alu_op_o      = `ALU_ADD;               // nop;              
                       ex_op_a_sel_o =  2'b0;  
                       ex_op_b_sel_o =  3'b0;            
                       wb_src_sel_o  =  1'b0;       

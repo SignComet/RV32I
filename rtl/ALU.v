@@ -10,7 +10,7 @@ module ALU
                 input      [bit_wight:0]       A,
                 input      [bit_wight:0]       B,
                 input      [`ALU_OP_WIDTH-1:0] ALUOp,
-                output reg [bit_wight:0]       res,   //операци€
+                output reg [bit_wight:0]       res,  
                 output reg                     flag
             );
     
@@ -22,9 +22,9 @@ end
 wire [31:0] res_add;
 wire P_in = 0;
 wire P_out = 0;
-fulladder inst(A, B, P_in, res_add, P_out ); //добавила свой блок полного сумматора с послед переносом
+fulladder inst(A, B, P_in, res_add, P_out ); // my ripple-carry adder
 
-always@ * //в SV заменитс€ на always_comb
+always@ *
 begin
   case(ALUOp)
     `ALU_ADD:  begin
@@ -34,8 +34,7 @@ begin
     `ALU_SUB:  begin 
                  res =  A - B; 
                  flag = 0;
-               end 
-     //—двиг 32-битного числа более, чем на 31 не имеет смысла. “ребуетс€ всего 5 бит             
+               end          
     `ALU_SLL:  begin 
                  res =  A << B[4:0]; 
                  flag = 0;

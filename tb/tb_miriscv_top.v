@@ -12,7 +12,7 @@ module tb_miriscv_top();
 
   miriscv_top #(
     .RAM_SIZE       ( RAM_SIZE           ),
-    .RAM_INIT_FILE  ("Example_3_Interrupt.txt") //( "program_sort.dat" )
+    .RAM_INIT_FILE  ("Example_3_Interrupt.txt") // Example_3_Interrupt.txt Example_2_LSU.txt Example_1_square.txt
   ) dut (
     .clk_i    ( clk   ),
     .rst_n_i  ( rst_n )

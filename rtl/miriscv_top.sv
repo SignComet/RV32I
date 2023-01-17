@@ -36,11 +36,12 @@ module miriscv_top
   assign data_addr_ram    =  data_addr_core;
   assign data_wdata_ram   =  data_wdata_core;
   
-wire        INT_; //cигнал о том, что произошло прерывание
-wire [31:0] mcause;      //код причины прерывания   
-wire        INT_RST;     //прерывание обработано
+wire        INT_; 
+wire [31:0] mcause;     
+wire        INT_RST;    
 wire [5:0]  mie;
 wire flag_mret;
+
 PROCESSOR  core (
     .clk_i   ( clk_i   ),
     .arstn_i ( rst_n_i ),

@@ -23,11 +23,11 @@
 module adder(
                 input  a,
                 input  b,
-                input  P_in,  //перенос из предыдущей операции
-                output S,     //результат сложения 1+1=0 один бит (фактически 10)
-                output P_out  //бит переноса
+                input  P_in,  // transfer from a previous operation
+                output S,     // result  1+1=0 (fact 10)
+                output P_out  // carry
             );
-assign S = a ^ b ^ P_in;    //результат
-assign P_out = (a & b) | (a & P_in) | (b & P_in); //хотя бы две 1 в сложении, то перенос
+assign S = a ^ b ^ P_in;      // result
+assign P_out = (a & b) | (a & P_in) | (b & P_in); //at least two 1 
 
 endmodule

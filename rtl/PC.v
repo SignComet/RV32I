@@ -15,7 +15,7 @@ always@(posedge clk) begin
 if (!rst) pc <= 32'b0;
 else if (en) begin
        if (jalr != 2'b00)
-         pc <= number_instr; //signed движение вниз-вверх
+         pc <= number_instr; //signed, down-up movement
        else 
          pc <= pc + number_instr;
        end  
