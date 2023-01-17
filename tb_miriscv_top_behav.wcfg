@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_miriscv_top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_miriscv_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="186670fs"></ZoomStartTime>
+      <ZoomEndTime time="250171fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="175"></NameColumnWidth>
+      <ValueColumnWidth column_width="87"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="25" />
+   <wvobject fp_name="/tb_miriscv_top/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/rst_n" type="logic">
+      <obj_property name="ElementShortName">rst_n</obj_property>
+      <obj_property name="ObjectShortName">rst_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/instr_rdata_core" type="array">
+      <obj_property name="ElementShortName">instr_rdata_core[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instr_rdata_core[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/pcc/pc" type="array">
+      <obj_property name="ElementShortName">pc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">pc[31:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/ram/mem[101]" type="array">
+      <obj_property name="ElementShortName">[101][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[101][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/csr_/mie" type="array">
+      <obj_property name="ElementShortName">mie[5:0]</obj_property>
+      <obj_property name="ObjectShortName">mie[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/int_fin" type="array">
+      <obj_property name="ElementShortName">int_fin[5:0]</obj_property>
+      <obj_property name="ObjectShortName">int_fin[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/counter" type="array">
+      <obj_property name="ElementShortName">counter[2:0]</obj_property>
+      <obj_property name="ObjectShortName">counter[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/int_req_i" type="array">
+      <obj_property name="ElementShortName">int_req_i[5:0]</obj_property>
+      <obj_property name="ObjectShortName">int_req_i[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/int_req_idle" type="array">
+      <obj_property name="ElementShortName">int_req_idle[5:0]</obj_property>
+      <obj_property name="ObjectShortName">int_req_idle[5:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/flag_mret" type="logic">
+      <obj_property name="ElementShortName">flag_mret</obj_property>
+      <obj_property name="ObjectShortName">flag_mret</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/INT_RST_i" type="logic">
+      <obj_property name="ElementShortName">INT_RST_i</obj_property>
+      <obj_property name="ObjectShortName">INT_RST_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/INT_" type="logic">
+      <obj_property name="ElementShortName">INT_</obj_property>
+      <obj_property name="ObjectShortName">INT_</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/register" type="logic">
+      <obj_property name="ElementShortName">register</obj_property>
+      <obj_property name="ObjectShortName">register</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/orr" type="logic">
+      <obj_property name="ElementShortName">orr</obj_property>
+      <obj_property name="ObjectShortName">orr</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/csr_/mtvec" type="array">
+      <obj_property name="ElementShortName">mtvec[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mtvec[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/csr_/mepc" type="array">
+      <obj_property name="ElementShortName">mepc[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mepc[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/IC/mcause_o" type="array">
+      <obj_property name="ElementShortName">mcause_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mcause_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/jalr" type="array">
+      <obj_property name="ElementShortName">jalr[1:0]</obj_property>
+      <obj_property name="ObjectShortName">jalr[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/rf/RF_[2]" type="array">
+      <obj_property name="ElementShortName">[2][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[2][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/rf/RF_[3]" type="array">
+      <obj_property name="ElementShortName">[3][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[3][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/rf/RF_[5]" type="array">
+      <obj_property name="ElementShortName">[5][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[5][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/rf/RF_[6]" type="array">
+      <obj_property name="ElementShortName">[6][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[6][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/rf/RF_[7]" type="array">
+      <obj_property name="ElementShortName">[7][31:0]</obj_property>
+      <obj_property name="ObjectShortName">[7][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_miriscv_top/dut/core/decoder/funct3_RISB" type="array">
+      <obj_property name="ElementShortName">funct3_RISB[2:0]</obj_property>
+      <obj_property name="ObjectShortName">funct3_RISB[2:0]</obj_property>
+      <obj_property name="Radix">BINARYRADIX</obj_property>
+   </wvobject>
+</wave_config>
