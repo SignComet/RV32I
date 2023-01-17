@@ -20,7 +20,7 @@
   + ram:  miriscv_ram
   + IC: Interrupt_Controller
   
-Также присутствует файл define.v (ссылка на код) и файлы инициализации памяти для загрузки инструкций (программ для исполнения) - example 1, example 2 и example 3. (ссылка на код) 
+Также присутствует файл define.v (ссылка на код) и файлы инициализации памяти c машинными кодами инструкций (программ для исполнения) - [example 1](https://github.com/SignComet/RV32I/blob/main/rtl/Example_1_square.txt), [example 2](https://github.com/SignComet/RV32I/blob/main/rtl/Example_2_LSU.txt) и [example 3](https://github.com/SignComet/RV32I/blob/main/rtl/Example_3_Interrupt.txt). 
 
 ## Структура модуля miriscv_top (ссылка на код)
 Топовый файл, в котором объединяется ядро, память и контроллер прерываний.
