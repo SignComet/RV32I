@@ -93,7 +93,7 @@ assign int_req_idle[5] = (flag_mret && int_fin[5] == 6'h1) ?  ~int_fin[5] : int_
 
 initial int_req = 6'b101000;
 always @(posedge clk_i) 
-if(flag_mret && INT_RST) int_req <= int_req_idle; //через RST
+if(flag_mret && INT_RST) int_req <= int_req_idle; 
 else int_req <= int_req;
               
 Interrupt_Controller IC(
