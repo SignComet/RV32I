@@ -23,25 +23,25 @@
 # 2. The following source(s) files that were local or imported into the original project.
 #    (Please see the '$orig_proj_dir' and '$origin_dir' variable setting below at the start of the script)
 #
-#    "C:/Interrupt_Controller_git/rtl/define.v"
-#    "C:/Interrupt_Controller_git/rtl/ALU.v"
-#    "C:/Interrupt_Controller_git/rtl/CSR.v"
-#    "C:/Interrupt_Controller_git/rtl/Interrupt_Controller.v"
-#    "C:/Interrupt_Controller_git/rtl/LSU.v"
-#    "C:/Interrupt_Controller_git/rtl/PC.v"
-#    "C:/Interrupt_Controller_git/rtl/PROCESSOR.v"
-#    "C:/Interrupt_Controller_git/rtl/RF.v"
-#    "C:/Interrupt_Controller_git/rtl/adder.v"
-#    "C:/Interrupt_Controller_git/rtl/fulladder.v"
-#    "C:/Interrupt_Controller_git/rtl/main_decoder.v"
-#    "C:/Interrupt_Controller_git/rtl/miriscv_ram.sv"
-#    "C:/Interrupt_Controller_git/rtl/miriscv_top.sv"
-#    "C:/Interrupt_Controller_git/rtl/Example_3_Interrupt.txt"
-#    "C:/Interrupt_Controller_git/rtl/Example_1_square.txt"
-#    "C:/Interrupt_Controller_git/rtl/Example_2_LSU.txt"
-#    "C:/Interrupt_Controller_git/tb/tb_miriscv_top.v"
-#    "C:/Interrupt_Controller_git/tb_miriscv_top_behav.wcfg"
-#    "C:/Interrupt_Controller_git/tb_LSU.wcfg"
+#    "C:/rtl/define.v"
+#    "C:/rtl/ALU.v"
+#    "C:/rtl/CSR.v"
+#    "C:/rtl/Interrupt_Controller.v"
+#    "C:/rtl/LSU.v"
+#    "C:/rtl/PC.v"
+#    "C:/rtl/PROCESSOR.v"
+#    "C:/rtl/RF.v"
+#    "C:/rtl/adder.v"
+#    "C:/rtl/fulladder.v"
+#    "C:/rtl/main_decoder.v"
+#    "C:/rtl/miriscv_ram.sv"
+#    "C:/rtl/miriscv_top.sv"
+#    "C:/rtl/Example_3_Interrupt.txt"
+#    "C:/rtl/Example_1_square.txt"
+#    "C:/rtl/Example_2_LSU.txt"
+#    "C:/tb/tb_miriscv_top.v"
+#    "C:/tb_miriscv_top_behav.wcfg"
+#    "C:/tb_LSU.wcfg"
 
 # 3. The following remote source files that were added to the original project:-
 #
@@ -144,22 +144,22 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 set obj [get_filesets sources_1]
 # Import local files from the original project
 set files [list \
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/define.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/ALU.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/CSR.v" ]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/Interrupt_Controller.v" ]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/LSU.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/PC.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/PROCESSOR.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/RF.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/adder.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/fulladder.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/main_decoder.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/miriscv_ram.sv"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/miriscv_top.sv"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/Example_3_Interrupt.txt" ]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/Example_1_square.txt" ]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/rtl/Example_2_LSU.txt" ]\
+ [file normalize "${origin_dir}/../rtl/define.v"]\
+ [file normalize "${origin_dir}/../rtl/ALU.v"]\
+ [file normalize "${origin_dir}/../rtl/CSR.v" ]\
+ [file normalize "${origin_dir}/../rtl/Interrupt_Controller.v" ]\
+ [file normalize "${origin_dir}/../rtl/LSU.v"]\
+ [file normalize "${origin_dir}/../rtl/PC.v"]\
+ [file normalize "${origin_dir}/../rtl/PROCESSOR.v"]\
+ [file normalize "${origin_dir}/../rtl/RF.v"]\
+ [file normalize "${origin_dir}/../rtl/adder.v"]\
+ [file normalize "${origin_dir}/../rtl/fulladder.v"]\
+ [file normalize "${origin_dir}/../rtl/main_decoder.v"]\
+ [file normalize "${origin_dir}/../rtl/miriscv_ram.sv"]\
+ [file normalize "${origin_dir}/../rtl/miriscv_top.sv"]\
+ [file normalize "${origin_dir}/../rtl/Example_3_Interrupt.txt" ]\
+ [file normalize "${origin_dir}/../rtl/Example_1_square.txt" ]\
+ [file normalize "${origin_dir}/../rtl/Example_2_LSU.txt" ]\
 ]
 set imported_files [import_files -fileset sources_1 $files]
 
@@ -219,9 +219,9 @@ if {[string equal [get_filesets -quiet sim_1] ""]} {
 set obj [get_filesets sim_1]
 # Import local files from the original project
 set files [list \
- [file normalize "${origin_dir}/../Interrupt_Controller_git/tb/tb_miriscv_top.v"]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/tb_miriscv_top_behav.wcfg" ]\
- [file normalize "${origin_dir}/../Interrupt_Controller_git/tb_LSU.wcfg" ]\
+ [file normalize "${origin_dir}/../tb/tb_miriscv_top.v"]\
+ [file normalize "${origin_dir}/../tb_miriscv_top_behav.wcfg" ]\
+ [file normalize "${origin_dir}/../tb_LSU.wcfg" ]\
 ]
 set imported_files [import_files -fileset sim_1 $files]
 
