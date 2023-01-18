@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 
-module Interrupt_Controller(    // контроллера прерывания с циклическим опросом
+module Interrupt_Controller(    
                                 input             clk,
                                 input      [5:0]  mie_i,      // mask
                                 input      [5:0]  int_req_i,  // from a peripheral device

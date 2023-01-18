@@ -33,7 +33,7 @@ assign mux_en_cause = (OP[2] || OP[1] || OP[0]);
 always  @(*) //ƒ¿®“ –≈√»—“–¿Ã –¿¡Œ“¿“‹
 case(A)
   12'h304: en_mie      <= OP[1] || OP[0];  // machine interrapt enable register.  mask
-  12'h305: en_mtvec    <= OP[1] || OP[0];  // machine trap-handler(Ó·‡·ÓÚ˜ËÍ) base address 
+  12'h305: en_mtvec    <= OP[1] || OP[0];  // machine trap-handler base address 
   12'h340: en_mscratch <= OP[1] || OP[0];  // pointer to the top of the interrupt stack
  // 12'h041: en_mepc     <= mux_en_pc;     // machine exception pc. addr of the instrduring which the interrupt occurred. For return
   12'h342: en_cause    <= mux_en_cause;  

@@ -4,7 +4,7 @@ module LSU(
               input                 clk_i,
               input                 arstn_i,          // reset
 
-              //core protocol  load в core
+              //core protocol  load to core
               input         [31:0]  lsu_addr_i,       //  from the processor comes the address of the memory cell to which it wants to appeal
               input                 lsu_we_i, 
               input         [2:0]   lsu_size_i,       // 
@@ -13,7 +13,7 @@ module LSU(
               output                lsu_stall_req_o,  // =!enable pc
               output        [31:0]  lsu_data_o,       // data read from memory
               
-              //memory protocol  запрошенные данные в rf
+              //memory protocol
               input         [31:0]  data_rdata_i,     // requested data
               output                data_req_o,       // 1 - memory access signal
               output                data_we_o,        // 1 - write

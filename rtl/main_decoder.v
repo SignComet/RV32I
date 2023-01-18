@@ -3,7 +3,7 @@
 
 `include "define.v"
 
-module main_decoder(    // устройство управления
+module main_decoder(    
                         input      [31:0]                fetched_instr_i, // instr
                         output reg [1:0]                 ex_op_a_sel_o,   // sel mux of first operand ALU 
                         output reg [2:0]                 ex_op_b_sel_o,
@@ -107,10 +107,10 @@ if(INT_) begin
                       wb_src_sel_o  = `WB_EX_RESULT;       
                     
                       mem_we_o      =  1'b0;
-                      mem_size_o    =  3'b0; // it doesn't matter
+                      mem_size_o    =  3'b0; 		// it doesn't matter
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
-                      jalr_o        =  2'h3; // mtvec
+                      jalr_o        =  2'h3; 		// mtvec
                       INT_RST       =  1'b0;
                       flag_mret = 0;
                       
@@ -281,24 +281,24 @@ case (fetched_instr_i[6:2])
                       ex_op_b_sel_o = `OP_B_INCR;            
                       wb_src_sel_o  = `WB_EX_RESULT;       
                     
-                      mem_we_o      =  1'b0;                // it doesn't matter  
-                      mem_size_o    =  3'b0;                // it doesn't matter 
-                      branch_o      =  1'b0; 
+                      mem_we_o      =  1'b0;                 // it doesn't matter  
+                      mem_size_o    =  3'b0;                 // it doesn't matter 
+                      branch_o      =  1'b0;  
                       jal_o         =  1'b0;                
-                      jalr_o        =  2'h2;                // pc = mepc
+                      jalr_o        =  2'h2;                 // pc = mepc
                       INT_RST       =  1'b1;
                       flag_mret     =  1'b1;
     end
     else if(funct3_RISB == 3'b001 || funct3_RISB == 3'b010 || funct3_RISB == 3'b011)
     begin  //CSRRW //CSRRS //CSRRC     
-                      gpr_we_a_o    =  1'b1;                // rd = csr  // WRITE to RF
+                      gpr_we_a_o    =  1'b1;                 // rd = csr  // WRITE to RF
                       mem_req_o     =  1'b1;                  
-                      alu_op_o      = `ALU_ADD;             // rs1+imm
+                      alu_op_o      = `ALU_ADD;              // rs1+imm
                       ex_op_a_sel_o = `OP_A_RS1; 
                       ex_op_b_sel_o = `OP_B_IMM_I;
                       wb_src_sel_o  = `WB_LSU_DATA;         
                     
-                      mem_we_o      =  1'b0;                // READ
+                      mem_we_o      =  1'b0;                 // READ
                       mem_size_o    =  mem_size_IS;
                       branch_o      =  1'b0; 
                       jal_o         =  1'b0;
