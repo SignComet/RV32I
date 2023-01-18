@@ -23,25 +23,25 @@ module LSU(
               input                 en_counter
           );
 
-reg [1:0] count = 0;
+reg [1:0] count = 2'b0;
 always@(posedge clk_i) begin // to raise the signals by only one clock cycle
 if(en_counter) begin
-  if(count == 2'h1) 
-   count  <= 0;
+  if(count == 2'b1) 
+   count  <= 2'b0;
   else
-   count <= count + 1;
+   count <= count + 1'b1;
 end
 end
 
-assign data_req_o = (lsu_req_i && lsu_we_i  && count == 2'h0) ? lsu_req_i  :    
-                    (lsu_req_i && lsu_we_i  && count == 2'h1) ? ~lsu_req_i : 
-                    (lsu_req_i && ~lsu_we_i && count == 2'h0) ? lsu_req_i  :
-                    (lsu_req_i && ~lsu_we_i && count == 2'h1) ? ~lsu_req_i : 1'bx;
+assign data_req_o = (lsu_req_i && lsu_we_i  && count == 2'b0) ? lsu_req_i  :    
+                    (lsu_req_i && lsu_we_i  && count == 2'b1) ? ~lsu_req_i : 
+                    (lsu_req_i && ~lsu_we_i && count == 2'b0) ? lsu_req_i  :
+                    (lsu_req_i && ~lsu_we_i && count == 2'b1) ? ~lsu_req_i : 1'bx;
                     
-assign data_we_o =  (lsu_req_i && lsu_we_i  && count == 2'h0) ? lsu_we_i   :
-                    (lsu_req_i && lsu_we_i  && count == 2'h1) ? ~lsu_we_i  :
-                    (lsu_req_i && ~lsu_we_i && count == 2'h0) ? lsu_we_i   :
-                    (lsu_req_i && ~lsu_we_i && count == 2'h1) ? lsu_we_i   : 1'bx;
+assign data_we_o =  (lsu_req_i && lsu_we_i  && count == 2'b0) ? lsu_we_i   :
+                    (lsu_req_i && lsu_we_i  && count == 2'b1) ? ~lsu_we_i  :
+                    (lsu_req_i && ~lsu_we_i && count == 2'b0) ? lsu_we_i   :
+                    (lsu_req_i && ~lsu_we_i && count == 2'b1) ? lsu_we_i   : 1'bx;
                     
 assign lsu_stall_req_o = data_req_o;
                     

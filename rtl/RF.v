@@ -13,12 +13,12 @@ module RF(
          );
         
 reg [31:0] RF_ [0:31];                  // 32 32-bit registers
-assign RD1 = (A1 != 0) ?  RF_[A1]: 0;
-assign RD2 = (A2 != 0) ?  RF_[A2]: 0;
+assign RD1 = (A1 != 5'b0) ?  RF_[A1]: 32'b0;
+assign RD2 = (A2 != 5'b0) ?  RF_[A2]: 32'b0;
 
 always@(posedge clk) begin 
-RF_[0] = 32'b0;
-if (WE3 && A3 != 0) 
+RF_[0] <= 32'b0;
+if (WE3 && A3 != 5'b0) 
   RF_[A3] <= WD3;
 else RF_[A3] <= RF_[A3]; 
 end

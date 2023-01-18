@@ -92,7 +92,8 @@ assign mem_size_IS_store =    (funct3_RISB == 3'b0) ? `LDST_B  :
                               (funct3_RISB == 3'h2) ? `LDST_W  : 3'b111; //111 not used!
                               
 
-reg illegal = 0;    
+reg illegal = 1'b0;   
+ 
 always@(*)
 begin        
 if (en_int_rst) INT_RST  =  1'b1;
@@ -112,13 +113,13 @@ if(INT_) begin
                       jal_o         =  1'b0;
                       jalr_o        =  2'h3; 		// mtvec
                       INT_RST       =  1'b0;
-                      flag_mret = 0;
+                      flag_mret     = 1'b0;
                       
           end
 
 else begin
 if(flag_mret)INT_RST =  1'b0;
-flag_mret     =  0;
+flag_mret =  1'b0;
 case (fetched_instr_i[6:2])
      `OP_OPCODE:    begin           // R-type
                       gpr_we_a_o    =  1'b1;            // write to a RF
@@ -332,11 +333,11 @@ end
 always@(*)
 begin
 if   (fetched_instr_i[1:0] != 2'b11 
-     || (mem_size_IS === 3'bzzz && (fetched_instr_i[6:2]            == `LOAD_OPCODE || fetched_instr_i[6:2] == `STORE_OPCODE) 
-     || (ALU_operation_i === 5'bzzzzz && fetched_instr_i[6:2]       == `OP_IMM_OPCODE) 
-     || (ALU_operation === 5'bzzzzz && fetched_instr_i[6:2]         == `OP_OPCODE)
-     || (ALU_operation_branch === 5'bzzzzz && (fetched_instr_i[6:2] == `BRANCH_OPCODE))
-     || (mem_size_IS_store === 3'bzzz && (fetched_instr_i[6:2]      == `STORE_OPCODE)) 
+     || (mem_size_IS == 3'b111 && (fetched_instr_i[6:2]            == `LOAD_OPCODE || fetched_instr_i[6:2] == `STORE_OPCODE) 
+     || (ALU_operation_i == 5'b01110 && fetched_instr_i[6:2]       == `OP_IMM_OPCODE) 
+     || (ALU_operation == 5'b01110 && fetched_instr_i[6:2]         == `OP_OPCODE)
+     || (ALU_operation_branch == 5'b01110 && (fetched_instr_i[6:2] == `BRANCH_OPCODE))
+     || (mem_size_IS_store == 3'b111 && (fetched_instr_i[6:2]      == `STORE_OPCODE)) 
      || (funct3_RISB != 3'b0 && fetched_instr_i[6:2]                == `JALR_OPCODE))) illegal = 1'b1;
 else illegal = 1'b0;
 end

@@ -10,7 +10,7 @@ module Interrupt_Controller(
                                 output            INT_o,      // interrupt happened 
                                 output reg [31:0] mcause_o                              
                             );
-reg  [2:0] counter = 0;
+reg  [2:0] counter = 3'b0;
 wire [5:0] dec;  // total of 5 devices
 
 reg  register;
@@ -37,28 +37,28 @@ assign int_fin[3] = (INT_RST_i && dec[3] && int_req_i[3] && mie_i[3]);
 assign int_fin[4] = (INT_RST_i && dec[4] && int_req_i[4] && mie_i[4]);   
 assign int_fin[5] = (INT_RST_i && dec[5] && int_req_i[5] && mie_i[5]);   
 
-reg flag = 0;              
+reg flag = 1'b0;              
 always@(posedge clk)  begin   
   if(INT_RST_i) begin
-    counter  <= 0;
-    register <= 0;
-    flag <= 0;
+    counter  <= 3'b0;
+    register <= 1'b0;
+    flag     <= 1'b0;
   end
   else begin if(!flag) begin
-    counter <= counter + 1;
+    counter  <= counter + 1'b1;
     register <= orr;
   end
   if (orr) begin
   register <= orr;
   counter  <= counter;
   mcause_o <= counter; 
-  flag <= 1; 
+  flag     <= 1'b1; 
   end
   end
  register <= orr; 
 end
 
-assign INT_o =  orr == 1 && register == 0;
+assign INT_o =  orr == 1'b1 && register == 1'b0;
 
 endmodule
 

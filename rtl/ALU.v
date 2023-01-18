@@ -20,7 +20,7 @@ flag = 32'b0;
 end
 
 wire [31:0] res_add;
-wire P_in = 0;
+wire P_in  = 0;
 wire P_out = 0;
 fulladder inst(A, B, P_in, res_add, P_out ); // my ripple-carry adder
 

@@ -6,7 +6,7 @@ module PC(
             input             rst,
             input             en,
             input      [1:0]  jalr,
-            output     [31:0] number_instr,
+            input      [31:0] number_instr,
             output reg [31:0] pc
          );
 initial pc = 32'b0;

@@ -40,7 +40,7 @@ wire        INT_;
 wire [31:0] mcause;     
 wire        INT_RST;    
 wire [5:0]  mie;
-wire flag_mret;
+wire        flag_mret;
 
 PROCESSOR  core (
     .clk_i   ( clk_i   ),
@@ -82,19 +82,20 @@ PROCESSOR  core (
   );
 wire [5:0]  int_req_idle;
 reg  [5:0]  int_req;
-reg  [5:0]  int_fin = 0;
+reg  [5:0]  int_fin;
 
-assign int_req_idle[0] = (flag_mret && int_fin[0] == 6'h1) ?  ~int_fin[0] : int_req[0];
-assign int_req_idle[1] = (flag_mret && int_fin[1] == 6'h1) ?  ~int_fin[1] : int_req[1];
-assign int_req_idle[2] = (flag_mret && int_fin[2] == 6'h1) ?  ~int_fin[2] : int_req[2];
-assign int_req_idle[3] = (flag_mret && int_fin[3] == 6'h1) ?  ~int_fin[3] : int_req[3];
-assign int_req_idle[4] = (flag_mret && int_fin[4] == 6'h1) ?  ~int_fin[4] : int_req[4];
-assign int_req_idle[5] = (flag_mret && int_fin[5] == 6'h1) ?  ~int_fin[5] : int_req[5];
+assign int_req_idle[0] = (flag_mret && int_fin[0] == 6'b1) ?  ~int_fin[0] : int_req[0];
+assign int_req_idle[1] = (flag_mret && int_fin[1] == 6'b1) ?  ~int_fin[1] : int_req[1];
+assign int_req_idle[2] = (flag_mret && int_fin[2] == 6'b1) ?  ~int_fin[2] : int_req[2];
+assign int_req_idle[3] = (flag_mret && int_fin[3] == 6'b1) ?  ~int_fin[3] : int_req[3];
+assign int_req_idle[4] = (flag_mret && int_fin[4] == 6'b1) ?  ~int_fin[4] : int_req[4];
+assign int_req_idle[5] = (flag_mret && int_fin[5] == 6'b1) ?  ~int_fin[5] : int_req[5];
 
 initial int_req = 6'b101000;
 always @(posedge clk_i) 
-if(flag_mret && INT_RST) int_req <= int_req_idle; 
-else int_req <= int_req;
+  if (flag_mret && INT_RST) 
+    int_req <= int_req_idle; 
+  else int_req <= int_req;
               
 Interrupt_Controller IC(
     .clk           ( clk_i   ),
