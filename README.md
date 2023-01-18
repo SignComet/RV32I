@@ -107,8 +107,9 @@
 Конечно, самая весомая возможная оптимизация здесь - сделать из однотактного процессора `конвейерный`.
 
 ## Сборка проекта
-`Vivado->Tools->Run Tcl Script->build.tcl->ОК`
-Далее `Run Synthesis->ОК`.  Дождитесь окончания синтеза. Затем для проведения симуляции проекта: `Run Simulation->Run Bihavioral Simulation`.
+*Vivado->Tools->Run Tcl Script->build.tcl->ОК*.
+
+Далее *Run Synthesis->ОК*.  Дождитесь окончания синтеза. Затем для проведения симуляции проекта: *Run Simulation->Run Bihavioral Simulation`*
 
 
 [![Typing SVG](https://readme-typing-svg.herokuapp.com?color=%2336BCF7&lines=Все+поставленные+цели+достигнуты+!)](https://git.io/typing-svg)
