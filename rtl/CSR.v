@@ -7,7 +7,7 @@ module CSR( //Control  and  Status  Registers
                 input         [31:0] mcause, // from IC
                 input         [31:0] pc,
                 input         [11:0] A,      // addr of CSR, which will be used
-                input         [31:0] WD,     // rd1 ñ RF
+                input         [31:0] WD,     // rd1 from RF
                 output  reg   [5:0]  mie,    // to IC            
                 output  reg   [31:0] mtvec,  // address of the interrupt vector
                 output  reg   [31:0] mepc,

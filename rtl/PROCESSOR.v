@@ -41,15 +41,13 @@ wire [1:0]  jalr;
 wire        csr;
 wire [2:0]  CSRop;
 
-always@* begin
+always@* begin			// pause counter
 if(instr_rdata_i === 32'hx) 
   en_pc = 1'b0;
 else if (mem_req_o)
   en_pc = !lsu_stall_req_o;
 else en_pc = 1'b1;
-end
-
-//assign en_pc = (instr_rdata_i === 32'x) ? 1'b0 :  ((mem_req_o) ? !lsu_stall_req_o : 1;       // pause counter
+end   
 
 //program counter
 PC pcc (clk_i, arstn_i, en_pc, jalr, instr_new, pc);

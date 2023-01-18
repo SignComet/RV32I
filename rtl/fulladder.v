@@ -22,7 +22,7 @@ adder adder0(
   
 genvar i;
 generate 
-   for(i = 1; i < 31; i = i + 1) begin 
+   for(i = 1'b1; i < 31; i = i + 1'b1) begin 
     adder adder(
        .a(A[i]),
        .b(B[i]),

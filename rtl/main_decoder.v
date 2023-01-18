@@ -35,7 +35,7 @@ initial INT_RST  = 1'b1;
 
 //R-type
 wire [6:0] funct7_R    =  fetched_instr_i[31:25];
-wire [2:0] funct3_RISB =  fetched_instr_i[14:12]; //для SYSTEM тоже
+wire [2:0] funct3_RISB =  fetched_instr_i[14:12]; //for SYSTEM too
 
 //SYSTEM
 assign csr = (funct3_RISB == 3'b000 && fetched_instr_i[6:2] == `SYSTEM_OPCODE) ? 1'b0  :
