@@ -101,7 +101,7 @@ module instr_mem(
 
 reg [31:0] RAM1 [0:63];
 initial $readmemh ("instr.txt", RAM1);
-assign  RD = RAM1[A/4]; //тк работали построчно по instr.txt
+assign  RD = RAM1[A/4]; // step by step
  
 endmodule
 
