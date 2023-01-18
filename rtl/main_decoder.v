@@ -15,8 +15,8 @@ module main_decoder(    // устройство управления
                         output reg                       wb_src_sel_o,    // sel mux for data into rf
                         output                           illegal_instr_o, 
                         output reg                       branch_o,        // 
-                        output reg                       jal_o,           //  offset relative to pc        JAL rd, offset          # rd ? PC + 4, PC ? PC + offset  ( The return address is also saved in rd)     
-                        output reg [1:0]                 jalr_o,          //  offset relative to регистра  JALR rd, offset(rs1)    # rd ? PC + 4, PC ? rs1 + offset ( The return address is also saved in rd)        
+                        output reg                       jal_o,           // JAL rd, offset           ( The return address is also saved in rd)     
+                        output reg [1:0]                 jalr_o,          // JALR rd, offset(rs1)     ( The return address is also saved in rd)        
                         output     [2:0]                 CSROop,           
                         input                            INT_,            // happened interrupt
                         output reg                       INT_RST,
@@ -240,13 +240,13 @@ case (fetched_instr_i[6:2])
                       jalr_o        =  2'b1; 
                     end 
     
-    `AUIPC_OPCODE:  begin           // U-type                 // auipc xn label   rd == PC +(imm << 12)  Add Upper Immediate to PC (добавить константу к старшим битам РС).
-                      gpr_we_a_o    =  1'b1;                  // запись в RF
+    `AUIPC_OPCODE:  begin           // U-type                 // auipc xn label   rd == PC +(imm << 12)  
+                      gpr_we_a_o    =  1'b1;                  // write to RF
                       mem_req_o     =  1'b0;                  // it doesn't matter
                       alu_op_o      = `ALU_ADD;                
                       ex_op_a_sel_o = `OP_A_CURR_PC; 
                       ex_op_b_sel_o = `OP_B_IMM_U;
-                      wb_src_sel_o  = `WB_EX_RESULT;          // результат с АЛУ запис в Рег файл
+                      wb_src_sel_o  = `WB_EX_RESULT;          // result from ALU to RF 
                     
                       mem_we_o      =  1'b0;                  // it doesn't matter  
                       mem_size_o    =  3'b0;                  // it doesn't matter  
